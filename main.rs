@@ -24,7 +24,7 @@ fn test_xor_sum() {
 
   let expected = ~"746865206b696420646f6e277420706c6179";
 
-  assert_eq!(expected, xor_sum(input1, input2));
+  assert_eq!(xor_sum(input1, input2), expected);
 }
 
  
@@ -35,7 +35,7 @@ fn test_hex_to_base64() {
   let expected = ~"SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t";
   let outcome = hex_to_base64(input);
 
-  assert_eq!(expected, outcome);
+  assert_eq!(outcome, expected);
 }
 
 fn main() {
