@@ -4,13 +4,12 @@ use std::base64::ToBase64;
 fn hex_to_base64(source: &str) -> ~str {
   let bytes = str::to_bytes(source);
   let mut nums: ~[u8] = ~[];
-  let mut i = 0;
 
-  while i < bytes.len() {
+  for uint::range_step(0, bytes.len(), 2) |i| {
     let num = u8::parse_bytes(bytes.slice(i, i+2), 16);
     match num { Some(n) => nums.push(n), None => () }
-    i += 2;
-  };
+  }
+
   nums.to_base64()
 }
 
@@ -20,4 +19,12 @@ fn test_hex_to_base64() {
   let outcome = hex_to_base64(expected);
 
   assert_eq!(expected, outcome);
+}
+
+fn main() {
+  let nums = [1,2,3,4,5,6,7];
+
+  for uint::range_step(0, nums.len() - 1, 2) |i| {
+    println(fmt!("%d & %d", nums[i], nums[i+1]));
+  }
 }
