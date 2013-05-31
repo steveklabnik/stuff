@@ -13,8 +13,34 @@ fn hex_to_base64(source: &str) -> ~str {
   nums.to_base64()
 }
 
+fn to_hex(bytes: ~[u8]) -> ~str {
+  let hex: @mut ~str = @mut ~"";
+  for bytes.each |byte| {
+    hex.push_str(u8::to_str_radix(*byte, 16));
+  };
+  (*hex).clone()
+}
+
 fn xor_sum(one: &str, two: &str) -> ~str {
-  return ~"";
+  if one.len() != two.len() {
+    fail!(~"lol");
+  }
+  let bytes  = str::to_bytes(one);
+  let bytes2 = str::to_bytes(two);
+  let mut nums: ~[u8] = ~[];
+
+  for uint::range_step(0, bytes.len(), 2) |i| {
+    let num  = u8::parse_bytes( bytes.slice(i, i+2), 16);
+    let num2 = u8::parse_bytes(bytes2.slice(i, i+2), 16);
+    match (num, num2) {
+      (Some(a), Some(b)) => {
+        nums.push(a ^ b)
+      }, 
+      _ => ()
+    }
+  }
+
+  to_hex(nums)
 }
 
 #[test]
