@@ -48,3 +48,25 @@ fn xor_sum(plaintext: &str, cypher: &str) -> ~str {
 
   (*sum).clone()
 }
+
+#[test]
+fn test_crack_xor() {
+  let cyphertext = ~"1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
+  assert_eq!(crack_xor(cyphertext), ~"this is a message");
+}
+
+fn crack_xor(cyphertext: ~str) -> ~str {
+  let cyphertext_bytes = str::to_bytes(cyphertext);
+  let key = 15 as u8;
+  let plaintext: @mut ~str = @mut ~"";
+
+  for uint::range_step(0, cyphertext_bytes.len(), 2) |i| {
+    let cypher_num = u8::parse_bytes(cyphertext_bytes.slice(i, i+2), 16);
+    match cypher_num {
+      Some(n) => print((n ^ key).to_str()),
+      _ => ()
+    }
+  }
+
+  (*plaintext).clone()
+}
